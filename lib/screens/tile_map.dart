@@ -1,3 +1,4 @@
+import 'package:cz3003_infinity_towers/screens/Login_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/constants/strings.dart';
 import 'package:cz3003_infinity_towers/constants/sizes.dart';
@@ -13,7 +14,14 @@ class TileMapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(Strings.tileMapTitle),
+        title: const Text(Strings.tileMapTitle, textAlign: TextAlign.center,),
+        leading: IconButton(icon:Icon(Icons.power_settings_new,size:30), onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => LoginScreen(),
+            ),
+          );
+        },),
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(Sizes.smallPadding),
