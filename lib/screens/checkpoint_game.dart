@@ -25,6 +25,10 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
   Widget _userImage = Image.asset('assets/user.png', width: 50, height: 50);
   Widget _monsterImage = Image.asset('assets/monster.png', width: 50, height: 50);
 
+
+  int _calcPreviousDifficultyLevelFloor() => max(((_floor ~/ 3) - 1) * 3, 0);
+
+
   void _updateFloorNumber() {
     setState(() {
       // Compare answer with correct answer only when _userAnswer is not null.
@@ -37,7 +41,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
         } else {
           _numWrongAnswers++;
           if (_numWrongAnswers == 3) {
-            _floor = max(_floor - 1, 0);
+            _floor = _calcPreviousDifficultyLevelFloor();
           }
         }
       }
