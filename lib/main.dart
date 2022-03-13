@@ -1,6 +1,7 @@
 import 'package:cz3003_infinity_towers/screens/tile_map.dart';
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/screens/checkpoint_error.dart';
+import 'package:cz3003_infinity_towers/screens/manage_towers.dart';
 void main() {
   runApp(MyApp());
 }
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: TileMapPage()
+      home: ManageTowers()
     );
   }
 }
