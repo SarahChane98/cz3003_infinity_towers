@@ -1,6 +1,6 @@
 import 'package:cz3003_infinity_towers/screens/tile_map.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cz3003_infinity_towers/screens/checkpoint_error.dart';
 void main() {
   runApp(MyApp());
 }
