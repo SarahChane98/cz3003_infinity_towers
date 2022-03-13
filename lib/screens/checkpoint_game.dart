@@ -20,6 +20,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
 
   var _floor = 0;
   var _userAnswer = "";
+  var _numWrongAnswers = 0;
   var _totalNumFloors = 10; // There are 10 levels in total right?
   Widget _userImage = Image.asset('assets/user.png', width: 50, height: 50);
   Widget _monsterImage = Image.asset('assets/monster.png', width: 50, height: 50);
@@ -31,9 +32,13 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
         var isAnswerCorrect = widget.checkpoint.questions[_floor].isAnswerCorrect(_userAnswer);
         _userAnswer = "";
         if (isAnswerCorrect) {
+          _numWrongAnswers = 0;
           _floor++;
         } else {
-          _floor = max(_floor - 3, 0);
+          _numWrongAnswers++;
+          if (_numWrongAnswers == 3) {
+            _floor = max(_floor - 1, 0);
+          }
         }
       }
     });
