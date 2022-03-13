@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cz3003_infinity_towers/constants/sizes.dart';
 import 'package:cz3003_infinity_towers/constants/strings.dart';
 
 class CheckpointErrorPage extends StatelessWidget {

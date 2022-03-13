@@ -7,7 +7,7 @@ import 'package:cz3003_infinity_towers/screens/tower_information.dart';
 
 class TileMapPage extends StatelessWidget {
 
-  List<Tower> towers = [mockTower1, mockTower2];
+  final towers = [mockTower1, mockTower2];
 
   @override
   Widget build(BuildContext context) {

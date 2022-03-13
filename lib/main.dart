@@ -1,3 +1,4 @@
+import 'package:cz3003_infinity_towers/screens/tile_map.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: TileMapPage()
     );
   }
 }

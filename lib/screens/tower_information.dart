@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/constants/strings.dart';
 import 'package:cz3003_infinity_towers/constants/sizes.dart';
 import 'package:cz3003_infinity_towers/screens/checkpoint_error.dart';
+import 'package:cz3003_infinity_towers/screens/checkpoint_game.dart';
 
 
 class TowerInformationPage extends StatelessWidget {
@@ -41,7 +42,10 @@ class TowerInformationPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CheckpointErrorPage(),
+                          builder: (context)
+                          => tower.checkpoints[index].unlocked?
+                            CheckpointGamePage(checkpoint: tower.checkpoints[index])
+                            :CheckpointErrorPage(),
                         ),
                       );
                     },
