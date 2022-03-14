@@ -32,8 +32,11 @@ class Checkpoint {
 class Tower {
   final String name;
   final List<Checkpoint> checkpoints;
-
-  Tower(this.name, this.checkpoints);
+  final String uniqueJoiningID;
+  final String passcode;
+  final List<String> members;
+  final String owner;
+  Tower(this.name, this.checkpoints, this.uniqueJoiningID, this.passcode, this.members, this.owner);
 }
 
 
@@ -56,7 +59,7 @@ Tower mockTower1 = new Tower("Python", [
   Checkpoint("Basic Syntax", true, questionsInCheckpoint),
   Checkpoint("Advanced Syntax", false, questionsInCheckpoint),
   Checkpoint("Control logic", false, questionsInCheckpoint),
-]);
+], "Tower1", "12345", [], "Instrucotr" );
 
 
 Tower mockTower2 = new Tower("Algorithms", [
@@ -64,7 +67,7 @@ Tower mockTower2 = new Tower("Algorithms", [
   Checkpoint("Search", true, questionsInCheckpoint),
   Checkpoint("Sort", false, questionsInCheckpoint),
   Checkpoint("Graphs", false, questionsInCheckpoint),
-]);
+], "Tower1", "12345", [], "Instrucotr" );
 
 
 

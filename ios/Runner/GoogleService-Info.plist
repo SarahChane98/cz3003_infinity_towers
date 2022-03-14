@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>422500475756-76g37kcunqqmoj9i6b5mj1acnnteohci.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.422500475756-76g37kcunqqmoj9i6b5mj1acnnteohci</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>422500475756-h8uka5np9uojroa2i0esvpj6fvmm47pv.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDeadH3MlyAwDZ9KXSKJs9FRRZrQNfdsBo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>422500475756</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.cz3003InfinityTowers</string>
+	<key>PROJECT_ID</key>
+	<string>cz3003-infinity-towers</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cz3003-infinity-towers.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:422500475756:ios:14124777534da9db4f0949</string>
+</dict>
+</plist>

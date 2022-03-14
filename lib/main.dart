@@ -1,7 +1,8 @@
+import 'package:cz3003_infinity_towers/screens/Login_Screen.dart';
+import 'package:cz3003_infinity_towers/screens/manage_towers.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'Screens/Login_Screen.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
