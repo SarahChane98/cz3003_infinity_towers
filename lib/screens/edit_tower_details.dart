@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/screens/appbar.dart';
-import 'package:cz3003_infinity_towers/screens/Login_Screen.dart';
 import 'package:cz3003_infinity_towers/screens/view_tower_information.dart';
-
-class ManageTowers extends StatefulWidget {
+class EditTowerDetails extends StatefulWidget {
   @override
-  _ManageTowersState createState() => _ManageTowersState();
+  _EditTowerDetailsState createState() => _EditTowerDetailsState();
 }
 
-class _ManageTowersState extends State<ManageTowers> {
+class _EditTowerDetailsState extends State<EditTowerDetails> {
   var appBarText = 'Manage Towers';
   var appBarStyle = const TextStyle(fontFamily: 'Fredoka', fontSize: 32);
 
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     onPrimary: Colors.black,
-    primary: Colors.lightBlue,
+    primary: Colors.red,
     onSurface: Colors.lightBlue,
     minimumSize: Size(88, 36),
     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -26,36 +24,23 @@ class _ManageTowersState extends State<ManageTowers> {
   @override
   Widget build(BuildContext context) {
     return (MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'Manage Towers',
-              textAlign: TextAlign.center,
-            ),
-            leading: IconButton(
-              icon: Icon(Icons.power_settings_new, size: 30),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ),
-                );
-              },
-            ),
-          ),
+          appBar: headerNav(title: 'Manage Towers'),
           body: ListView(children: <Widget>[
             ViewTowerInformation(),
             Center(
               child: ElevatedButton.icon(
                 icon: Icon(
-                  Icons.add_box_rounded,
+                  Icons.delete_forever,
                   color: Colors.black,
                 ),
-                label: Text("Add New Tower!"),
+                label: Text("Delete this tower!"),
                 style: raisedButtonStyle,
                 onPressed: () {},
               ),
             ),
+
           ])),
     ));
   }
