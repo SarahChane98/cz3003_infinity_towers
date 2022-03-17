@@ -1,4 +1,4 @@
-import 'package:cz3003_infinity_towers/screens/Login_Screen.dart';
+import 'package:cz3003_infinity_towers/screens/Home_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/constants/strings.dart';
 import 'package:cz3003_infinity_towers/constants/sizes.dart';
@@ -18,7 +18,7 @@ class TileMapPage extends StatelessWidget {
         leading: IconButton(icon:Icon(Icons.power_settings_new,size:30), onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => LoginScreen(),
+              builder: (context) => HomeScreen(),
             ),
           );
         },),

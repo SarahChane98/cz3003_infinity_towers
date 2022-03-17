@@ -1,3 +1,4 @@
+import 'package:cz3003_infinity_towers/screens/Home_Screen.dart';
 import 'package:cz3003_infinity_towers/screens/Login_Screen.dart';
 import 'package:cz3003_infinity_towers/screens/manage_towers.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:LoginScreen(),
+      home:HomeScreen(),
     );
   }
 }

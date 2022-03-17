@@ -9,11 +9,15 @@ import 'tile_map.dart';
 import 'manage_towers.dart';
 
 class LoginScreen extends StatefulWidget {
+  LoginScreen(this.user);
+  String user;
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginScreenState createState() => _LoginScreenState(user);
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  _LoginScreenState(this.user);
+  String user;
   final formkey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   String email = '';
@@ -49,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Infinity Towers",
+                              user,
                               style: TextStyle(
                                   fontSize: 50,
                                   color: Colors.black,

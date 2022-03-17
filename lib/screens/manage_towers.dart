@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/screens/appbar.dart';
-import 'package:cz3003_infinity_towers/screens/Login_Screen.dart';
+import 'package:cz3003_infinity_towers/screens/Home_Screen.dart';
 import 'package:cz3003_infinity_towers/screens/view_tower_information.dart';
 
 class ManageTowers extends StatefulWidget {
@@ -37,7 +37,7 @@ class _ManageTowersState extends State<ManageTowers> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
+                    builder: (context) => HomeScreen(),
                   ),
                 );
               },
