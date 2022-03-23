@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class LoginSignupButton extends StatelessWidget {
   final String title;
   final dynamic  ontapp;
+  final dynamic buttonstyle;
 
-  LoginSignupButton({this.title, this.ontapp});
+  LoginSignupButton({this.title, this.ontapp, this.buttonstyle});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,11 @@ class LoginSignupButton extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               title,
-              style: TextStyle(fontSize: 20),
+
+              style: TextStyle(fontSize: 20,color:Colors.black,),
             ),
           ),
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.black45),
-          ),
+          style: buttonstyle,
         ),
       ),
     );

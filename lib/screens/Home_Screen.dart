@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () async {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginScreen('Sign in to your Teacher Account')),
+                        MaterialPageRoute(builder: (context) => LoginScreen('teacher')),
                       );
                   }),
             ),
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () async {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginScreen('Sign in to your Student Account')),
+                      MaterialPageRoute(builder: (context) => LoginScreen('student')),
                     );
                   }),
             ),

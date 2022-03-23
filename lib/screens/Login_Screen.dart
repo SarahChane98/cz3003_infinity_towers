@@ -1,32 +1,61 @@
+import 'package:cz3003_infinity_towers/screens/Main_Student.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cz3003_infinity_towers/constants/button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cz3003_infinity_towers/constants/constants.dart';
-import 'Home_Screen.dart';
-import 'Register_Screen.dart';
+import 'package:cz3003_infinity_towers/screens/Home_Screen.dart';
+import 'package:cz3003_infinity_towers/screens/Main_Teacher.dart';
+import 'package:cz3003_infinity_towers/screens/Main_Student.dart';
 import 'tile_map.dart';
 import 'manage_towers.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen(this.user);
-  String user;
+  LoginScreen(this.logintype);
+  String logintype;
   @override
-  _LoginScreenState createState() => _LoginScreenState(user);
+  _LoginScreenState createState() => _LoginScreenState(logintype);
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  _LoginScreenState(this.user);
-  String user;
+  _LoginScreenState(this.logintype);
+  String logintype;
+  String titlemessage = '';
   final formkey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
   String email = '';
   String password = '';
   bool isloading = false;
-  bool isSwitched = false;
+  bool isSwitched = true;
+
   @override
   Widget build(BuildContext context) {
+    if (logintype =='teacher'){
+      titlemessage='Log in to your Teacher Account';
+    }
+    else {
+      titlemessage = 'Log in to your Student Account';
+    }
     return Scaffold(
+      appBar: AppBar(
+        title:Text(
+          titlemessage,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+            fontWeight: FontWeight.w900,),
+        ),
+        backgroundColor: Colors.lightBlueAccent[100],
+        elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black,size: 30,),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      backgroundColor: Colors.lightBlue[100],
       body: isloading
           ? Center(
               child: CircularProgressIndicator(),
@@ -41,36 +70,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: double.infinity,
                       width: double.infinity,
                       constraints: BoxConstraints.expand(),
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("assets/log_in_background.jpg"),
-                            fit: BoxFit.cover),
-                      ),
                       child: SingleChildScrollView(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 25, vertical: 120),
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 50),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              user,
-                              style: TextStyle(
-                                  fontSize: 50,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                            Container(
+                              height: 80,
+                              width: 80,
+                              child: Image.asset('assets/tower.png'),
                             ),
-                            SwitchListTile(
-                              title:Text("I'm a Instructor",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 25)),value: isSwitched,
-                              onChanged: (value) {
-                                setState(() {
-                                  isSwitched = value;
-                                });
-                              },
-                              activeTrackColor: Colors.orangeAccent,
-                              activeColor: Colors.deepOrange,),
+                            SizedBox(height: 50),
                             TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {
@@ -109,10 +120,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Colors.black,
                                   )),
                             ),
-                            SizedBox(height: 80),
-                            LoginSignupButton(
-                              title: 'Login',
-                              ontapp: () async {
+                            SizedBox(height: 30),
+                        Container(
+                          height: 64,
+                          width: 300,
+                          child:ElevatedButton(
+                              child: Text('Login',
+                                  style:TextStyle(
+                                      color:Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
+                                      )),
+                              onPressed: () async {
                                 if (formkey.currentState.validate()) {
                                   setState(() {
                                     isloading = true;
@@ -120,28 +139,74 @@ class _LoginScreenState extends State<LoginScreen> {
                                   try {
                                     await _auth.signInWithEmailAndPassword(
                                         email: email, password: password);
-                                    if (isSwitched) {
-                                      await Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return ManageTowers();
-                                          },
-                                        ),
-                                      );
-                                    } else {
-                                      await Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return TileMapPage();
-                                          },
-                                        ),
-                                      );
+                                    var snap = await users.where("email",isEqualTo: email).get();
+                                    var type = snap.docs[0]['type'];
+                                    print(type);
+                                    print(logintype);
+                                    if (logintype=='teacher') {
+                                      if (type == logintype) {
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return EntTScreen();
+                                            },
+                                          ),
+                                        );
+                                      }
+                                      else {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            backgroundColor: Colors.red[300],
+                                            content: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'You do not have Teacher Authorisation',
+                                                textAlign: TextAlign.center,),
+                                            ),
+                                            duration: Duration(seconds: 3),
+                                          ),
+                                        );
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return HomeScreen();
+                                            },
+                                          ),
+                                        );
+                                      }
                                     }
-                                    await Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (contex) => TileMapPage(),
-                                      ),
-                                    );
+                                    if (logintype=='student') {
+                                      if (type == logintype) {
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return EntSScreen();
+                                            },
+                                          ),
+                                        );
+                                      }
+                                      else {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            backgroundColor: Colors.red[300],
+                                            content: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'You do not have Student Authorisation',
+                                                textAlign: TextAlign.center,),
+                                            ),
+                                            duration: Duration(seconds: 3),
+                                          ),
+                                        );
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return HomeScreen();
+                                            },
+                                          ),
+                                        );
+                                      }
+                                    }
 
                                     setState(() {
                                       isloading = false;
@@ -169,37 +234,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                                 }
                               },
-                            ),
-                            SizedBox(height: 30),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => SignupScreen(),
-                                  ),
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Don't have an Account ?",
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.black87),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Hero(
-                                    tag: '1',
-                                                                      child: Text(
-                                      'Sign up',
-                                      style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
-                                    ),
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green[300]),
+                                  padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.black54)
+                                      )
                                   )
-                                ],
                               ),
-                            )
+                            ),
+                        ),
+                            SizedBox(height: 30),
+
                           ],
                         ),
                       ),
