@@ -1,4 +1,4 @@
-import 'package:cz3003_infinity_towers/models/mock_data.dart';
+import 'package:cz3003_infinity_towers/models/multiple_choice_question.dart';
 import 'package:flutter/material.dart';
 
 class MultipleChoiceQuestionDialog extends StatelessWidget {
