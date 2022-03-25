@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/models/checkpoint.dart';
+import 'package:cz3003_infinity_towers/models/tower_participation.dart';
 import 'package:cz3003_infinity_towers/models/multiple_choice_question.dart';
 import 'dart:math';
 import 'package:cz3003_infinity_towers/widgets/mcq_dialog.dart';
@@ -8,10 +9,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CheckpointGamePage extends StatefulWidget {
-  CheckpointGamePage({Key key, @required this.checkpoint, @required this.towerId}) : super(key: key);
+  CheckpointGamePage({Key key, @required this.checkpoint, @required this.towerId, @required this.ckptIndex}) : super(key: key);
 
   final Checkpoint checkpoint;
   final String towerId;
+  final int ckptIndex;
 
   @override
   _CheckpointGamePageState createState() => _CheckpointGamePageState();
@@ -21,7 +23,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
 
   // Display user avatar on _floor. If _floor > max level (10?), display congrats message and a go back to tower info page button.
 
-  var _floor = 0;
+  var _floor;
   var _userAnswer = "";
   var _numWrongAnswers = 0;
   var _totalNumFloors = 10; // There are 10 levels in total right?
@@ -33,7 +35,28 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
   List<MultipleChoiceQuestion> allHardQuestions = [];
   List<MultipleChoiceQuestion> allBossQuestions = [];
 
+  final towerParticipationsRef = FirebaseFirestore.instance.collection('tower_participations').withConverter<TowerParticipation>(
+    fromFirestore: (snapshot, _) => TowerParticipation.fromJson(snapshot.data()),
+    toFirestore: (participation, _) => participation.toJson(),
+  );
+
   int _calcPreviousDifficultyLevelFloor() => max(((_floor ~/ 3) - 1) * 3, 0);
+
+  Future<void> getCurrFloor() async {
+    await towerParticipationsRef
+      .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+      .where('towerId', isEqualTo: widget.towerId)
+      .get()
+      .then((snapshot) => snapshot.docs)
+      .then((results) {
+          if(results[0].data().checkpointsUnlocked <= widget.ckptIndex){
+            _floor = results[0].data().currFloorInCkpt;
+          } else {
+            _floor = 0;
+          }
+
+    });
+  }
 
   Future<void> getAllQuestions() async {
     final questionsRef = FirebaseFirestore.instance.collection('questions').withConverter<MultipleChoiceQuestion>(
@@ -74,19 +97,80 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     }
   }
 
-  void selectQuestions() async {
+  Future<void> selectQuestions() async {
     await getAllQuestions();
     reselectQuestions();
+  }
+
+  Future<int> calcNewScore() async {
+    var curr_level = _floor ~/ 3;
+    var pointsToDeduct;
+    switch (curr_level) {
+      case 0:
+        pointsToDeduct = 200;
+        break;
+      case 1:
+        pointsToDeduct = 100;
+        break;
+      case 2:
+        pointsToDeduct = 50;
+        break;
+      case 3:
+        pointsToDeduct = 10;
+        break;
+    }
+
+    int newScore;
+    await towerParticipationsRef
+        .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+        .where('towerId', isEqualTo: widget.towerId)
+        .get()
+        .then((snapshot) => snapshot.docs)
+        .then((results) {
+      newScore = max(0, results[0].data().score - pointsToDeduct);
+    });
+    return newScore;
+  }
+
+  Future<void> updateScore() async {
+    await calcNewScore().then((newScore) async {
+      QuerySnapshot querySnapshot = await towerParticipationsRef
+          .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+          .where('towerId', isEqualTo: widget.towerId)
+          .get();
+      await querySnapshot.docs[0].reference.update({'score':newScore});
+    });
+  }
+
+  Future<void> updateFloor() async {
+    QuerySnapshot querySnapshot = await towerParticipationsRef
+        .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+        .where('towerId', isEqualTo: widget.towerId)
+        .get();
+    QueryDocumentSnapshot doc = querySnapshot.docs[0];
+    DocumentReference docRef = doc.reference;
+    TowerParticipation t = doc.data() as TowerParticipation;
+    if (t.checkpointsUnlocked <= widget.ckptIndex) {
+      await docRef.update({'currFloorInCkpt':_floor});
+      if (_floor >= _totalNumFloors) {
+        await querySnapshot.docs[0].reference.update({'checkpointsUnlocked':t.checkpointsUnlocked + 1});
+        await querySnapshot.docs[0].reference.update({'currFloorInCkpt':0});
+        await querySnapshot.docs[0].reference.update({'score':t.score+1000 });
+      }
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    selectQuestions();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await selectQuestions();
+      await getCurrFloor();
+      setState(() { });
+    });
   }
 
-  void _updateFloorNumber() {
-    setState(() {
+  Future<void> _updateFloorNumber() async {
       // Compare answer with correct answer only when _userAnswer is not null.
       if (_userAnswer != "") {
         var isAnswerCorrect = selectedQuestions[_floor].isAnswerCorrect(_userAnswer);
@@ -94,15 +178,23 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
         if (isAnswerCorrect) {
           _numWrongAnswers = 0;
           _floor++;
+          await updateFloor();
         } else {
           _numWrongAnswers++;
           reselectQuestions();
+          await updateScore();
           if (_numWrongAnswers == 3) {
             _floor = _calcPreviousDifficultyLevelFloor();
+            await updateFloor();
           }
         }
       }
-    });
+
+      setState(() {
+        _userAnswer = _userAnswer;
+        _floor = _floor;
+        _numWrongAnswers = _numWrongAnswers;
+      });
   }
 
   void _displayQuestionDialog() async {
@@ -111,7 +203,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
         builder: (context) =>
             MultipleChoiceQuestionDialog(selectedQuestions[_floor]),
     );
-    _updateFloorNumber();
+    await _updateFloorNumber();
   }
 
   void _displayUserFloorTooLowAlertDialog() {
@@ -186,7 +278,9 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.checkpoint.name),
       ),
-      body: _floor < _totalNumFloors? buildAllFloors(): buildCongratsMessage(),
+      body: _floor == null
+          ? Center(child:CircularProgressIndicator())
+          :( _floor < _totalNumFloors? buildAllFloors(): buildCongratsMessage()),
     );
   }
 }

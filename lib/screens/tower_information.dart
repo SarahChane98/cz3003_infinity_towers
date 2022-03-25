@@ -10,13 +10,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cz3003_infinity_towers/screens/checkpoint_error.dart';
 import 'package:cz3003_infinity_towers/screens/checkpoint_game.dart';
 
-
-class TowerInformationPage extends StatelessWidget {
+class TowerInformationPage extends StatefulWidget {
+  TowerInformationPage({Key key, @required this.tower, @required this.towerId}): super(key: key);
 
   final Tower tower;
   final String towerId;
 
-  TowerInformationPage({Key key, @required this.tower, @required this.towerId}): super(key: key);
+  @override
+  _TowerInformationPageState createState() => _TowerInformationPageState();
+}
+
+class _TowerInformationPageState extends State<TowerInformationPage> {
 
   // Get a list of checkpoints using checkpointIds
   Future<List<Checkpoint>> getCheckpoints() async {
@@ -26,7 +30,7 @@ class TowerInformationPage extends StatelessWidget {
     );
 
     List<Checkpoint> checkpoints = [];
-    for(var ckptId in tower.checkpointIds){
+    for(var ckptId in widget.tower.checkpointIds){
       await ckptRef.doc(ckptId).get().then((snapshot) => snapshot.data())
           .then((checkpoint) => checkpoints.add(checkpoint));
     }
@@ -44,7 +48,7 @@ class TowerInformationPage extends StatelessWidget {
     int ckptUnlocked;
     await towerParticipationsRef
       .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
-      .where('towerId', isEqualTo: towerId)
+      .where('towerId', isEqualTo: widget.towerId)
       .get()
       .then((snapshot) => snapshot.docs)
       .then((results) {
@@ -64,7 +68,7 @@ class TowerInformationPage extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(Sizes.smallPadding),
-            child: Text(tower.name, style: TextStyle(fontSize: Sizes.mediumFont)),
+            child: Text(widget.tower.name, style: TextStyle(fontSize: Sizes.mediumFont)),
           ),
           Expanded(
             child: FutureBuilder(
@@ -98,10 +102,12 @@ class TowerInformationPage extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (context)
                                   => index <= checkpointsUnlocked?
-                                    CheckpointGamePage(checkpoint: checkpoints[index], towerId: towerId)
+                                    CheckpointGamePage(checkpoint: checkpoints[index], towerId: widget.towerId, ckptIndex: index)
                                     :CheckpointErrorPage(),
                                 ),
-                              );
+                              ).then((_){
+                                setState((){});
+                              });
                             },
                           ),
                         );
