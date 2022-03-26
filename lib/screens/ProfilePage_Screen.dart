@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child:Row(
                 children: [
                   SizedBox(width: 20,),
-                  Text('School',style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                  Text('School',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                   SizedBox(width: 220,),
                   Text('SCSE',style: TextStyle(fontSize: 24),)
                 ],
@@ -88,8 +88,25 @@ class _ProfilePageState extends State<ProfilePage> {
               child:Row(
                 children: [
                   SizedBox(width: 20,),
-                  Text('Email',style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                  Text('Email',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                   Container(width:290,child:Text(email,style: TextStyle(fontSize: 18),textAlign: TextAlign.right,))
+                ],
+              )),
+          SizedBox(height: 10,),
+          Container(
+              decoration:BoxDecoration(color:Colors.lightGreen[100]),
+              child:Row(
+                children: [
+                  SizedBox(width: 20,),
+                  Text('Linked',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                  Container(width:245,child:Text('LinkedIn,Facebook',style: TextStyle(fontSize: 18,fontStyle:FontStyle.italic),textAlign: TextAlign.right,)),
+                  IconButton(onPressed: () {
+                  },
+                      icon: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.grey,
+                        size: 40.0,
+                      ))
                 ],
               )),
           SizedBox(height: 10,),
@@ -112,7 +129,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   SizedBox(width: 20,),
                   Text('Username',style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),textAlign: TextAlign.left,),
-                  Container(width:230,child:Text(email,style: TextStyle(fontSize: 18),textAlign: TextAlign.right,))
+                  Container(width:195,child:Text(email,style: TextStyle(fontSize: 18),textAlign: TextAlign.right,)),
+                  IconButton(onPressed: () {
+                  },
+                      icon: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.grey,
+                        size: 40.0,
+                      ))
                 ],
               )),
           SizedBox(height: 10,),

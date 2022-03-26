@@ -277,7 +277,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
                         .where('towerId', isEqualTo: widget.towerId)
                         .get();
                     var score = querySnapshot.docs[0]['score'];
-                    Share.share('I have gotten $score at ${widget.towerId} in Infinity Towers! Download the app and challenge me today!');},
+                    Share.share('I have gotten $score at ${widget.checkpoint.name} in Infinity Towers! Download the app and challenge me today using my Unique Joining ID "4567_A"!');},
                   child: Text(
                     'Challenge a Friend!'
                   )

@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: 80,
                               child: Image.asset('assets/tower.png'),
                             ),
-                            SizedBox(height: 50),
+                            SizedBox(height: 10),
                             TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (value) {
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 30),
+                            SizedBox(height: 10),
                             TextFormField(
                               obscureText: true,
                               validator: (value) {
@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Colors.black,
                                   )),
                             ),
-                            SizedBox(height: 30),
+                            SizedBox(height: 10),
                             Container(
                               height: 64,
                               width: 300,
@@ -221,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 30),
+                            SizedBox(height: 10),
                             ]
                             else ...[
                               Container(
@@ -229,7 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 width: 80,
                                 child: Image.asset('assets/tower.png'),
                               ),
-                              SizedBox(height: 50),
+                              SizedBox(height: 10),
                               TextFormField(
                                 keyboardType: TextInputType.emailAddress,
                                 onChanged: (value) {
@@ -249,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 30),
+                              SizedBox(height: 10),
                               TextFormField(
                                 obscureText: true,
                                 validator: (value) {
@@ -268,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       color: Colors.black,
                                     )),
                               ),
-                              SizedBox(height: 30),
+                              SizedBox(height: 10),
                               Container(
                                 height: 64,
                                 width: 300,
@@ -373,7 +373,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     buttonText: 'Log in with LinkedIn',
                                   onTap: linkedInLogin,
 
-                              ))
+                              )),
+                              SizedBox(height: 10),
+                              Text('OR',textAlign: TextAlign.center,style:TextStyle(fontSize: 20)),
+                              SizedBox(height: 10),
+                              Container(
+
+                                  height: 64,
+                                  width: 300,
+                                  child: ElevatedButton(
+                                    child: Row(mainAxisAlignment:MainAxisAlignment.center,children:[Icon(Icons.facebook_outlined),SizedBox(width:10),Text('Log in with Facebook'),]),
+                                    onPressed: linkedInLogin,
+                                  ))
                             ]
                           ],
                         ),
