@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   clipBehavior: Clip.hardEdge,
                   child: Center(
-                    child: Text('Teacher Mode',
+                    child: Text('Instructor Mode',
                         style:TextStyle(fontSize: 30,color:Colors.black87)),
                   ),
                   onPressed: () async {
