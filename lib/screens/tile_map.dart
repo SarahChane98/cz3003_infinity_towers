@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cz3003_infinity_towers/screens/Home_Screen.dart';
+import 'package:cz3003_infinity_towers/screens/add_tower.dart';
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/constants/strings.dart';
 import 'package:cz3003_infinity_towers/constants/sizes.dart';
@@ -8,7 +8,14 @@ import 'package:cz3003_infinity_towers/models/tower.dart';
 import 'package:cz3003_infinity_towers/models/tower_participation.dart';
 import 'package:cz3003_infinity_towers/screens/tower_information.dart';
 
-class TileMapPage extends StatelessWidget {
+class TileMapPage extends StatefulWidget {
+  const TileMapPage({Key key}) : super(key: key);
+
+  @override
+  State<TileMapPage> createState() => _TileMapPageState();
+}
+
+class _TileMapPageState extends State<TileMapPage> {
   final towerParticipationsRef = FirebaseFirestore.instance.collection('tower_participations').withConverter<TowerParticipation>(
     fromFirestore: (snapshot, _) => TowerParticipation.fromJson(snapshot.data()),
     toFirestore: (participation, _) => participation.toJson(),
@@ -55,13 +62,17 @@ class TileMapPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(Strings.tileMapTitle, textAlign: TextAlign.center,),
-        leading: IconButton(icon:Icon(Icons.power_settings_new,size:30), onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => HomeScreen(),
-            ),
-          );
-        },),
+        actions: [
+          IconButton(icon: Icon(Icons.add), onPressed: (){
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => AddTowerPage(),
+              ),
+            ).then((_){
+              setState((){});
+            });
+          }),
+        ],
       ),
       body: FutureBuilder(
         future: Future.wait([getTowers(), getTowerIds()]),
