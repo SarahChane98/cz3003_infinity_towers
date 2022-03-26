@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cz3003_infinity_towers/constants/constants.dart';
 import 'package:cz3003_infinity_towers/screens/Home_Screen.dart';
-import 'tile_map.dart';
+import 'package:cz3003_infinity_towers/screens/ProfilePage_Screen.dart';
 import 'manage_towers.dart';
 
 class EntTScreen extends StatefulWidget {
-  EntTScreen();
+  EntTScreen(this.email);
+  String email;
   @override
-  _EntTScreenState createState() => _EntTScreenState();
+  _EntTScreenState createState() => _EntTScreenState(email);
 }
 
 class _EntTScreenState extends State<EntTScreen> {
-  _EntTScreenState();
+  _EntTScreenState(this.email);
+  String email;
   final formkey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  String email = '';
   String password = '';
   bool isloading = false;
   bool isSwitched = true;
@@ -58,9 +58,6 @@ class _EntTScreenState extends State<EntTScreen> {
           child: Stack(
             children: [
               Container(
-                height: double.infinity,
-                width: double.infinity,
-                constraints: BoxConstraints.expand(),
                 child: SingleChildScrollView(
                   padding:
                   EdgeInsets.symmetric(horizontal: 25, vertical: 50),
@@ -90,13 +87,17 @@ class _EntTScreenState extends State<EntTScreen> {
                         color: Colors.red[200],
                         shape: const CircleBorder(),
                         onPressed: () async {
+                          QuerySnapshot querySnapshot = await users
+                              .where('uid', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                              .get();
+                          var ImagePath = querySnapshot.docs[0]['imageURL'];
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => ManageTowers()),
+                            MaterialPageRoute(builder: (context) => ProfilePage(ImagePath,email)),
                           );
                         },
                         child: const Padding(
-                          padding: EdgeInsets.all(75),
+                          padding: EdgeInsets.all(90),
                           child: Text(
                             'Account Settings',
                             textAlign: TextAlign.center,
@@ -104,6 +105,7 @@ class _EntTScreenState extends State<EntTScreen> {
                           ),
                         ),
                       ),
+
                     ],
                   ),
                 ),

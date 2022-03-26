@@ -152,7 +152,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                         .add({
                                       'email': email, // John Doe
                                       'uid': user.uid, // Stokes and Sons
-                                      'type': type // 42
+                                      'type': type,
+                                      'imageURL':"https://upload.wikimedia.org/wikipedia/en/0/0b/Darth_Vader_in_The_Empire_Strikes_Back.jpg"// 42
                                     })
                                         .then((value) => print("User Added"))
                                         .catchError((error) => print("Failed to add user: $error"));
@@ -214,3 +215,4 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 }
+

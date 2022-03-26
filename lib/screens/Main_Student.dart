@@ -4,21 +4,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cz3003_infinity_towers/constants/constants.dart';
 import 'package:cz3003_infinity_towers/screens/Home_Screen.dart';
+import 'package:cz3003_infinity_towers/screens/ProfilePage_Screen.dart';
 import 'tile_map.dart';
 import 'manage_towers.dart';
 
 class EntSScreen extends StatefulWidget {
-  EntSScreen();
+  EntSScreen(this.email);
+  String email;
   @override
-  _EntSScreenState createState() => _EntSScreenState();
+  _EntSScreenState createState() => _EntSScreenState(email);
 }
 
 class _EntSScreenState extends State<EntSScreen> {
-  _EntSScreenState();
+  _EntSScreenState(this.email);
+  String email;
   final formkey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  String email = '';
   String password = '';
   bool isloading = false;
   bool isSwitched = true;
@@ -58,12 +60,9 @@ class _EntSScreenState extends State<EntSScreen> {
           child: Stack(
             children: [
               Container(
-                height: double.infinity,
-                width: double.infinity,
-                constraints: BoxConstraints.expand(),
                 child: SingleChildScrollView(
                   padding:
-                  EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -85,7 +84,7 @@ class _EntSScreenState extends State<EntSScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 40),
+                      SizedBox(height: 20),
                       MaterialButton(
                         color: Colors.red[200],
                         shape: const CircleBorder(),
@@ -96,7 +95,7 @@ class _EntSScreenState extends State<EntSScreen> {
                           );
                         },
                         child: const Padding(
-                          padding: EdgeInsets.all(75),
+                          padding: EdgeInsets.all(80),
                           child: Text(
                             'Leaderboard',
                             textAlign: TextAlign.center,
@@ -104,18 +103,22 @@ class _EntSScreenState extends State<EntSScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 40),
+                      SizedBox(height: 20),
                       MaterialButton(
                         color: Colors.red[200],
                         shape: const CircleBorder(),
                         onPressed: () async {
+                          QuerySnapshot querySnapshot = await users
+                              .where('uid', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                              .get();
+                          var ImagePath = querySnapshot.docs[0]['imageURL'];
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => TileMapPage()),
+                            MaterialPageRoute(builder: (context) => ProfilePage(ImagePath,email)),
                           );
                         },
                         child: const Padding(
-                          padding: EdgeInsets.all(75),
+                          padding: EdgeInsets.all(63),
                           child: Text(
                             'Account Settings',
                             textAlign: TextAlign.center,

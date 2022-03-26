@@ -29,6 +29,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_database: ^9.0.8
   cloud_firestore: ^3.1.10
+  linkedin_login: ^2.1.0
+  cached_network_image: ^3.2.0
+  dio: ^4.0.4
+  flutter_json_widget: ^1.0.2
+  share_plus: ^4.0.3
+  string_validator: ^0.3.0
+  image_picker: ^0.8.4+11
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +59,7 @@ flutter:
     - assets/user.png
     - log_in_background.jpg
     - tower.png
+    - linkedin_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

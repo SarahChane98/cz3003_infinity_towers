@@ -7,6 +7,7 @@ import 'package:cz3003_infinity_towers/widgets/mcq_dialog.dart';
 import 'package:cz3003_infinity_towers/constants/sizes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CheckpointGamePage extends StatefulWidget {
   CheckpointGamePage({Key key, @required this.checkpoint, @required this.towerId, @required this.ckptIndex}) : super(key: key);
@@ -266,8 +267,23 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     return Center(
       child: Container(
           padding: const EdgeInsets.all(Sizes.mediumPadding),
-          child: Text('You have successfully completed this checkpoint! '
-              'Please return to tower information page.',)
+          child: Column(
+            children: [Text('You have successfully completed this checkpoint! '
+              'Please return to tower information page.',),
+              ElevatedButton(
+                  onPressed:() async {
+                    QuerySnapshot querySnapshot = await towerParticipationsRef
+                        .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                        .where('towerId', isEqualTo: widget.towerId)
+                        .get();
+                    var score = querySnapshot.docs[0]['score'];
+                    Share.share('I have gotten $score at ${widget.towerId} in Infinity Towers! Download the app and challenge me today!');},
+                  child: Text(
+                    'Challenge a Friend!'
+                  )
+                  )
+            ]
+          )
       ),
     );
   }

@@ -33,14 +33,8 @@ class _ManageTowersState extends State<ManageTowers> {
               textAlign: TextAlign.center,
             ),
             leading: IconButton(
-              icon: Icon(Icons.power_settings_new, size: 30),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => HomeScreen(),
-                  ),
-                );
-              },
+              icon: Icon(Icons.arrow_back_ios, color: Colors.black,size: 30,),
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ),
           body: ListView(children: <Widget>[
