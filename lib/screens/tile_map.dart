@@ -16,6 +16,8 @@ class TileMapPage extends StatefulWidget {
 }
 
 class _TileMapPageState extends State<TileMapPage> {
+
+  Widget towerImage = Image.asset('assets/tower.png', width: 50, height: 50);
   final towerParticipationsRef = FirebaseFirestore.instance.collection('tower_participations').withConverter<TowerParticipation>(
     fromFirestore: (snapshot, _) => TowerParticipation.fromJson(snapshot.data()),
     toFirestore: (participation, _) => participation.toJson(),
@@ -95,6 +97,7 @@ class _TileMapPageState extends State<TileMapPage> {
                 return Container(
                   height: Sizes.towerTileHeight,
                   child: ListTile(
+                    leading: towerImage,
                     title: Text('Tower: ${towers[index].name}'),
                     trailing: Icon(Icons.navigate_next),
                     onTap: () {

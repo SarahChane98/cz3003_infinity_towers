@@ -29,6 +29,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
   var _totalNumFloors = 10; // There are 10 levels in total right?
   Widget _userImage = Image.asset('assets/user.png', width: 50, height: 50);
   Widget _monsterImage = Image.asset('assets/monster.png', width: 50, height: 50);
+  Map<int, Color> colorSchemes = {0: Colors.green[300], 1: Colors.amber[300], 2:Colors.orange[300], 3:Colors.red[300]};
   List<MultipleChoiceQuestion> selectedQuestions = [];
   List<MultipleChoiceQuestion> allEasyQuestions = [];
   List<MultipleChoiceQuestion> allMediumQuestions = [];
@@ -239,6 +240,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
 
   Widget buildSingleFloor(int monsterFloor) {
     return Container(
+      color: colorSchemes[monsterFloor ~/ 3],
       height: 50,
       child: ListTile(
         leading: monsterFloor == _floor? _userImage :null,
