@@ -1,12 +1,12 @@
 import 'dart:async';
-
+import 'package:cz3003_infinity_towers/constants/display_image_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/screens/edit_password.dart';
 import 'package:cz3003_infinity_towers/screens/edit_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../constants/display_image_widget.dart';
+
 
 // This class handles the Page to dispaly the user's info on the "Edit Profile" Screen
 class ProfilePage extends StatefulWidget {

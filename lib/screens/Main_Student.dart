@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cz3003_infinity_towers/constants/constants.dart';
 import 'package:cz3003_infinity_towers/screens/Home_Screen.dart';
 import 'package:cz3003_infinity_towers/screens/ProfilePage_Screen.dart';
+import 'package:cz3003_infinity_towers/screens/leaderboard_tile_map.dart';
 import 'tile_map.dart';
 import 'manage_towers.dart';
 
@@ -91,7 +92,7 @@ class _EntSScreenState extends State<EntSScreen> {
                         onPressed: () async {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => TileMapPage()),
+                            MaterialPageRoute(builder: (context) => LeaderboardTileMapPage()),
                           );
                         },
                         child: const Padding(

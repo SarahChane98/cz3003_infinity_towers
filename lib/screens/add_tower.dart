@@ -22,23 +22,23 @@ class _AddTowerPageState extends State<AddTowerPage> {
 
   void popDialog(String message) async {
     await showDialog(context: context, builder: (context) {
-    return AlertDialog(content: Text(message));
-   });
+      return AlertDialog(content: Text(message));
+    });
   }
 
   Future<bool> hasJoinedTower(String towerId) async {
     bool hasJoined;
     await towerParticipationsRef
-      .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
-      .where('towerId', isEqualTo: towerId)
-      .get()
-      .then((snapshot) => snapshot.docs)
-      .then((results) {
-        if (results.length > 0) {
-          hasJoined = true;
-        } else {
-          hasJoined = false;
-        }
+        .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+        .where('towerId', isEqualTo: towerId)
+        .get()
+        .then((snapshot) => snapshot.docs)
+        .then((results) {
+      if (results.length > 0) {
+        hasJoined = true;
+      } else {
+        hasJoined = false;
+      }
     });
     return hasJoined;
   }
@@ -60,24 +60,24 @@ class _AddTowerPageState extends State<AddTowerPage> {
     print(joiningCode);
     print(passcode);
     await towerRef
-      .where('uniqueJoiningId', isEqualTo: textController1.text)
-      .where('passcode', isEqualTo: textController2.text)
-      .get()
-      .then((snapshot) => snapshot.docs)
-      .then((results) async {
-        if (results.length > 0) {
-          hasJoinedTower(results[0].id).then((hasJoined){
-            if (hasJoined) {
-              popDialog("You have already joined this tower. Please try again!");
-            } else {
-              addTowerParticipation(results[0].id);
-              popDialog("You've successfully added a tower!");
-            }
-          });
-        } else {
-          popDialog("There is no matching tower. Please try again!");
-        }
+        .where('uniqueJoiningId', isEqualTo: textController1.text)
+        .where('passcode', isEqualTo: textController2.text)
+        .get()
+        .then((snapshot) => snapshot.docs)
+        .then((results) async {
+      if (results.length > 0) {
+        hasJoinedTower(results[0].id).then((hasJoined){
+          if (hasJoined) {
+            popDialog("You have already joined this tower. Please try again!");
+          } else {
+            addTowerParticipation(results[0].id);
+            popDialog("You've successfully added a tower!");
+          }
+        });
+      } else {
+        popDialog("There is no matching tower. Please try again!");
       }
+    }
     );
   }
 
