@@ -11,9 +11,9 @@ class Tower {
     this(
     name: json['name'] as String,
     checkpointIds: (json['checkpointIds'] as List<dynamic>).cast<String>(),
-    uniqueJoiningId: json['uniqueJoiningID'] as String,
+    uniqueJoiningId: json['uniqueJoiningId'] as String,
     passcode: json['passcode'] as String,
-    ownerId: json['ownderId'] as String,
+    ownerId: json['ownerId'] as String,
   );
 
   final String name;
@@ -26,7 +26,7 @@ class Tower {
     return {
       'name': name,
       'checkpointIds': checkpointIds,
-      'uniqueJoiningID': uniqueJoiningId,
+      'uniqueJoiningId': uniqueJoiningId,
       'passcode': passcode,
       'ownerId': ownerId,
     };

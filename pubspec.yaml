@@ -42,6 +42,9 @@ dev_dependencies:
     sdk: flutter
   firebase_auth: ^3.0.1
   firebase_core: ^1.4.0
+  shared_preferences: ^2.0.8
+  string_validator: ^0.3.0
+  rflutter_alert: ^2.0.4
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -57,9 +60,9 @@ flutter:
   assets:
     - assets/monster.png
     - assets/user.png
-    - log_in_background.jpg
-    - tower.png
-    - linkedin_logo.png
+    - assets/log_in_background.jpg
+    - assets/tower.png
+    - assets/linkedin_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

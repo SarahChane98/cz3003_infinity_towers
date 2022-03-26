@@ -1,8 +1,11 @@
+import 'package:cz3003_infinity_towers/models/tower.dart';
+import 'package:cz3003_infinity_towers/screens/edit_tower_details.dart';
+import 'package:cz3003_infinity_towers/screens/tower_information.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ViewTowerInformation extends StatelessWidget {
-  //const ViewTowerInformation({Key? key}) : super(key: key);
+  const ViewTowerInformation({Key key}) : super(key: key);
   final towerName = 'Tower 1';
   final dateCreated = "15/03/2022";
   final totalParticipants="10";
@@ -16,7 +19,10 @@ class ViewTowerInformation extends StatelessWidget {
       elevation: 10,
       child: new InkWell(
         onTap: () {
-          print("Hello");
+          // Navigator.of(context).push(
+          //     MaterialPageRoute(
+          //     builder: (context) => EditTowerDetails(towerName))
+          //     );
         },
         //splashColor: Colors.lightBlueAccent,
         child: Column(children: <Widget>[
@@ -33,6 +39,7 @@ class ViewTowerInformation extends StatelessWidget {
                 Text(towerName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             subtitle: Text("Date of Creation: "+dateCreated+"\nTotal Participants: "+totalParticipants),
             isThreeLine: true,
+
             // trailing: new IconButton(
             //   icon: new Icon(Icons.delete, color: Colors.black),
             //   onPressed: () {
