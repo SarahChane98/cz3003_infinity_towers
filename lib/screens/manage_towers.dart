@@ -9,6 +9,8 @@ import 'package:cz3003_infinity_towers/models/tower.dart';
 import 'package:cz3003_infinity_towers/models/tower_participation.dart';
 import 'package:cz3003_infinity_towers/constants/sizes.dart';
 import 'package:cz3003_infinity_towers/screens/edit_tower_details.dart';
+import 'package:cz3003_infinity_towers/screens/add_new_tower.dart';
+import 'package:cz3003_infinity_towers/screens/Main_Teacher.dart';
 class ManageTowers extends StatefulWidget {
   @override
   _ManageTowersState createState() => _ManageTowersState();
@@ -37,16 +39,39 @@ class _ManageTowersState extends State<ManageTowers> {
             );
 
     List<Tower> towers = [];
+    List<String> towerIDs = [];
     await towerRef
         .where('ownerId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
         .get()
         .then((snapshot) => snapshot.docs)
         .then((results) {
       for (var t in results) {
+        towerIDs.add(t.id);
         towers.add(t.data());
       }
     });
     return towers;
+  }
+
+  Future<List<String>> getOwnedTowersIDs() async {
+    final towerRef =
+    FirebaseFirestore.instance.collection('towers').withConverter<Tower>(
+      fromFirestore: (snapshot, _) => Tower.fromJson(snapshot.data()),
+      toFirestore: (tower, _) => tower.toJson(),
+    );
+
+    List<String> towerIDs = [];
+    await towerRef
+        .where('ownerId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+        .get()
+        .then((snapshot) => snapshot.docs)
+        .then((results) {
+      for (var t in results) {
+        towerIDs.add(t.id);
+
+      }
+    });
+    return towerIDs;
   }
 
   @override
@@ -60,11 +85,17 @@ class _ManageTowersState extends State<ManageTowers> {
             ),
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios, color: Colors.black,size: 30,),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => //Navigator.of(context).pop(),
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          EntTScreen('')
+                  ))
             ),
           ),
       body: FutureBuilder(
-        future: Future.wait([getOwnedTowers()]),
+        future: Future.wait([getOwnedTowers(), getOwnedTowersIDs()]),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasError) {
             return Text("Something went wrong");
@@ -76,6 +107,7 @@ class _ManageTowersState extends State<ManageTowers> {
 
           if (snapshot.connectionState == ConnectionState.done) {
             List<Tower> towers = snapshot.data[0];
+            List<String> towerIDs = snapshot.data[1];
             if (towers.length != 0) {
               return ( //ListView(children: [
                       ListView.builder(
@@ -91,7 +123,14 @@ class _ManageTowersState extends State<ManageTowers> {
                                       ),
                                       label: Text("Add New Tower!"),
                                       style: raisedButtonStyle,
-                                      onPressed: () {}
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AddNewTower()
+                                            ));
+                                      }
                                   )
                               )
                               );
@@ -104,16 +143,18 @@ class _ManageTowersState extends State<ManageTowers> {
                                 elevation: 10,
                                 child: new InkWell(
                                   onTap: () {
+                                    print("This is the towerID");
+                                    print(towerIDs[index]);
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
-                                        builder: (context) => EditTowerDetails(tower: towers[index]))
+                                        builder: (context) => EditTowerDetails(tower: towers[index], towerID: towerIDs[index]))
                                         );
                                   },
                                   //splashColor: Colors.lightBlueAccent,
                                   child: Column(children: <Widget>[
                                     ListTile(
                                       leading: new IconButton(
-                                        icon: new Icon(Icons.copy,
+                                        icon: new Icon(Icons.share,
                                             color: Colors.black),
                                         onPressed: () {
                                           print("Copy Tower Access Details");
@@ -125,7 +166,7 @@ class _ManageTowersState extends State<ManageTowers> {
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold)),
                                       subtitle:
-                                          Text("\nTotal Participants: " + '10'),
+                                          Text("\nDate of Creation: " + '27/03/21'),
                                       isThreeLine: true,
 
                                       // trailing: new IconButton(

@@ -31,7 +31,7 @@ class _EntTScreenState extends State<EntTScreen> {
           'Infinity Towers',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 40,
+            fontSize: 30,
             color: Colors.black,
             fontWeight: FontWeight.w900,),
         ),

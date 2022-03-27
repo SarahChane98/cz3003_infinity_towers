@@ -67,6 +67,7 @@ class TowerLeaderboardPage extends StatelessWidget {
                   itemCount: scores.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
+
                       height: Sizes.towerTileHeight,
                       child: ListTile(
                         title: Text(emails[index]),

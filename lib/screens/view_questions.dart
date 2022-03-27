@@ -13,7 +13,8 @@ import 'package:cz3003_infinity_towers/screens/edit_question.dart';
 class ViewQuestions extends StatefulWidget {
   final Checkpoint rcheckpoint;
   final String checkpointID;
-  const ViewQuestions({Key key, @required this.rcheckpoint, @required this.checkpointID}) : super(key: key);
+  final Tower tower;
+  const ViewQuestions({Key key, @required this.rcheckpoint, @required this.checkpointID, @required this.tower}) : super(key: key);
 
   @override
   State<ViewQuestions> createState() => _ViewQuestionsState();
@@ -49,7 +50,6 @@ class _ViewQuestionsState extends State<ViewQuestions> {
           .then((checkpoint) => multipleChoiceQuestions.add(checkpoint));
     }
     return(multipleChoiceQuestions);
-
   }
 
 
@@ -97,7 +97,7 @@ class _ViewQuestionsState extends State<ViewQuestions> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => AddQuestion(checkpointID: widget.checkpointID),
+                                      builder: (context) => AddQuestion(checkpointID: widget.checkpointID, tower: widget.tower, origin: 'question',),
                                     ),
                                   );
                                 })));

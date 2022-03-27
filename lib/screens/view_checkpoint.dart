@@ -1,3 +1,4 @@
+import 'package:cz3003_infinity_towers/screens/add_new_checkpoint.dart';
 import 'package:cz3003_infinity_towers/screens/view_questions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cz3003_infinity_towers/models/tower.dart';
@@ -11,7 +12,8 @@ import 'package:cz3003_infinity_towers/models/multiple_choice_question.dart';
 import 'package:cz3003_infinity_towers/models/tower_participation.dart';
 class ViewCheckpoints extends StatefulWidget {
   final Tower tower;
-  const ViewCheckpoints({Key key, @required this.tower}) : super(key: key);
+  final String towerID;
+  const ViewCheckpoints({Key key, @required this.tower, @required this.towerID}) : super(key: key);
 
   @override
   State<ViewCheckpoints> createState() => _ViewCheckpointsState();
@@ -47,7 +49,7 @@ class _ViewCheckpointsState extends State<ViewCheckpoints> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(Strings.towerInformationTitle),
+        title: const Text("Sections"),
       ),
       body: Column(
         children: [
@@ -84,7 +86,12 @@ class _ViewCheckpointsState extends State<ViewCheckpoints> {
                                       label: Text("Add New Checkpoint!"),
                                       style: raisedButtonStyle,
                                       onPressed: () {
-                                        // ADD CHECKPOINT
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => AddNewCheckpoint(towerID: widget.towerID, tower: widget.tower),
+                                          ),
+                                        );
                                       }
                                   )
                               ));
@@ -97,7 +104,7 @@ class _ViewCheckpointsState extends State<ViewCheckpoints> {
                               color: Colors.lightBlue,
                               elevation: 10,
                               child: new InkWell(
-                                child: Row(
+                                child: Column(
 
                                   children: [
                                     Text('\t\tCheckpoint ${index+1}:\t\t\t',
@@ -111,7 +118,7 @@ class _ViewCheckpointsState extends State<ViewCheckpoints> {
                                 onTap: () {
                                   Navigator.of(context).push(
                                       MaterialPageRoute(
-                                          builder: (context) => ViewQuestions(rcheckpoint: checkpoints[index], checkpointID: widget.tower.checkpointIds[index],))
+                                          builder: (context) => ViewQuestions(rcheckpoint: checkpoints[index], checkpointID: widget.tower.checkpointIds[index], tower: widget.tower,))
                                   );
                                 },
                               ),

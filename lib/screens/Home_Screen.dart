@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
             "Infinity Towers",
             style: TextStyle(
-                fontSize: 100,
+                fontSize: 90,
                 color: Colors.black,
                 fontWeight: FontWeight.w900),
               textAlign: TextAlign.center,

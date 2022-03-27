@@ -262,7 +262,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
         separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
-
+ var score;
   Widget buildCongratsMessage() {
     return Center(
       child: Container(
@@ -276,12 +276,12 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
                         .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
                         .where('towerId', isEqualTo: widget.towerId)
                         .get();
-                    var score = querySnapshot.docs[0]['score'];
+                    score = querySnapshot.docs[0]['score'];
                     Share.share('I have gotten $score at ${widget.checkpoint.name} in Infinity Towers! Download the app and challenge me today using my Unique Joining ID "4567_A"!');},
                   child: Text(
                     'Challenge a Friend!'
                   )
-                  )
+                  ),
             ]
           )
       ),

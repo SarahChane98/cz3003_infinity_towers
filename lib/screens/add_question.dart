@@ -1,4 +1,5 @@
 import 'package:cz3003_infinity_towers/screens/individual_question_information.dart';
+import 'package:cz3003_infinity_towers/screens/view_checkpoint.dart';
 import 'package:cz3003_infinity_towers/screens/view_questions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cz3003_infinity_towers/models/tower.dart';
@@ -13,10 +14,16 @@ import 'package:cz3003_infinity_towers/models/tower_participation.dart';
 import 'package:cz3003_infinity_towers/screens/appbar.dart';
 import 'package:cz3003_infinity_towers/screens/view_tower_individual_detail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cz3003_infinity_towers/screens/manage_towers.dart';
+
+
 class AddQuestion extends StatefulWidget {
   final String checkpointID;
-
-  const AddQuestion({Key key, @required this.checkpointID}) : super(key: key);
+  final Tower tower;
+  final String origin;
+  const AddQuestion(
+      {Key key, @required this.checkpointID, @required this.tower, @required this.origin})
+      : super(key: key);
 
   @override
   State<AddQuestion> createState() => _AddQuestionState();
@@ -38,70 +45,96 @@ class _AddQuestionState extends State<AddQuestion> {
   // );
   //
   void popDialog(String message) async {
-    await showDialog(context: context, builder: (context) {
-      return AlertDialog(content: Text(message));
-    });
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(content: Text(message), actions: <Widget>[
+            FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  if(widget.origin == 'question')
+                    {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ViewCheckpoints(tower: widget.tower)));
+                    }
+                  if(widget.origin == 'checkpoint') {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ManageTowers()));
+                  }
+                  //Navigator.pop(context);
+                })
+          ]);
+        });
   }
-  
-  CollectionReference questions = FirebaseFirestore.instance.collection('questions');
- Future<void> addQuestion()
- {
-    questions.add({'questionText':textControllerQuestion.text,
-    'choiceA':textControllerChoiceA.text,
-      'choiceB':textControllerChoiceB.text,
-      'choiceC':textControllerChoiceC.text,
-      'choiceD':textControllerChoiceD.text,
-      'correctAnswer':textControllerCorrectAnswer.text,
-      'difficulty':textControllerDifficulty.text
-    }).then((value) => popDialog("Question Added!"))
+
+  CollectionReference questions =
+      FirebaseFirestore.instance.collection('questions');
+  Future<void> addQuestion() async {
+    questions
+        .add({
+          'questionText': textControllerQuestion.text,
+          'choiceA': textControllerChoiceA.text,
+          'choiceB': textControllerChoiceB.text,
+          'choiceC': textControllerChoiceC.text,
+          'choiceD': textControllerChoiceD.text,
+          'correctAnswer': textControllerCorrectAnswer.text,
+          'difficulty': textControllerDifficulty.text
+        })
+        .then((value) => print("Question Added!"))
         .catchError((error) => print("Failed to add user: $error"));
- }
-Future<void> addRest()
-{
-
-  final questionsRef = FirebaseFirestore.instance.collection('questions').withConverter<MultipleChoiceQuestion>(
-    fromFirestore: (snapshot, _) => MultipleChoiceQuestion.fromJson(snapshot.data()),
-    toFirestore: (participation, _) => participation.toJson(),
-  );
-
-  Future<List<QueryDocumentSnapshot<MultipleChoiceQuestion>>> getQuestions() async {
-    var questions = await questionsRef
-        .where('questionText', isEqualTo: textControllerQuestion.text)
-        .where('difficulty', isEqualTo: textControllerDifficulty.text)
-        .get()
-        .then((snapshot) => snapshot.docs);
-    return questions;
   }
 
-  Future<void> getQuestionID() async {
+  Future<void> addRest() async {
+    final questionsRef = FirebaseFirestore.instance
+        .collection('questions')
+        .withConverter<MultipleChoiceQuestion>(
+          fromFirestore: (snapshot, _) =>
+              MultipleChoiceQuestion.fromJson(snapshot.data()),
+          toFirestore: (participation, _) => participation.toJson(),
+        );
+
+    Future<List<QueryDocumentSnapshot<MultipleChoiceQuestion>>>
+        getQuestions() async {
+      var questions = await questionsRef
+          .where('questionText', isEqualTo: textControllerQuestion.text)
+          .where('difficulty', isEqualTo: textControllerDifficulty.text)
+          .get()
+          .then((snapshot) => snapshot.docs);
+      return questions;
+    }
+
+    // Future<void> getQuestionID() async {
+    //
+    //     } );
+    // }
     await getQuestions().then((questions) async {
       questionID = questions[0].id;
-      var collection = FirebaseFirestore.instance.collection('checkpoints');
-      collection
-          .doc(widget.checkpointID) // <-- Document ID
-          .set({'questionIds': FieldValue.arrayUnion([questionID])}) // <-- Add data
-          .then((_) => print('Added'))
-          .catchError((error) => print('Add failed: $error'));
-      } );
+    });
+    print(questionID);
+    //getQuestionID();
+    var collection = FirebaseFirestore.instance.collection('checkpoints');
+    collection
+        .doc(widget.checkpointID) // <-- Document ID
+        .update({
+          'questionIds': FieldValue.arrayUnion([questionID])
+        }) // <-- Add data
+        .then((_) => print('Added $questionID ${widget.checkpointID}'))
+        .catchError((error) => print('Add failed: $error'));
   }
-  getQuestionID();
 
-  var col = FirebaseFirestore.instance.collection('checkpoints').doc(widget.checkpointID).get();
-  var collection = FirebaseFirestore.instance.collection('checkpoints');
-  collection
-      .doc(widget.checkpointID) // <-- Document ID
-      .update({'questionIds': FieldValue.arrayUnion([questionID])}) // <-- Add data
-      .then((_) => print('Added $questionID ${widget.checkpointID}'))
-      .catchError((error) => print('Add failed: $error'));
-}
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style = ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+    final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     return Scaffold(
       appBar: AppBar(title: const Text("Add new question!")),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+      body: ListView(children: <Widget> [
           Padding(
             padding: EdgeInsets.all(16),
             child: TextFormField(
@@ -172,11 +205,21 @@ Future<void> addRest()
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Multi Select?',
+              ),
+            ),
+          ),
           ElevatedButton(
             style: style,
             onPressed: () {
               addQuestion();
               addRest();
+              popDialog("Question Added!");
             },
             child: const Text('Create'),
           ),

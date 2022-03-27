@@ -1,15 +1,18 @@
 import 'package:cz3003_infinity_towers/models/tower.dart';
+import 'package:cz3003_infinity_towers/screens/Duel_Mode.dart';
 import 'package:cz3003_infinity_towers/screens/manage_towers.dart';
 import 'package:cz3003_infinity_towers/screens/tower_information.dart';
 import 'package:cz3003_infinity_towers/screens/view_checkpoint.dart';
+import 'package:cz3003_infinity_towers/screens/view_performance_chart.dart';
 import 'package:cz3003_infinity_towers/screens/view_tower_individual_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/screens/appbar.dart';
 import 'package:cz3003_infinity_towers/screens/view_tower_information.dart';
-
+import 'package:cz3003_infinity_towers/screens/view_performance_chart_trial.dart';
 class EditTowerDetails extends StatefulWidget {
   final Tower tower;
-  EditTowerDetails({@required this.tower});
+  final String towerID;
+  EditTowerDetails({@required this.tower, @required this.towerID});
 
   @override
   _EditTowerDetailsState createState() => _EditTowerDetailsState();
@@ -33,10 +36,19 @@ class _EditTowerDetailsState extends State<EditTowerDetails> {
     return (MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: headerNav(
-              title: 'View Tower Detail',
-              context: context,
-              returnFunction: ManageTowers()),
+          appBar: AppBar(
+              title: Text('View Tower Detail'),
+              leading: IconButton(
+                  icon:Icon(Icons.arrow_back,size:30),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ManageTowers(),
+                      ),
+                    );
+                  }
+          )),
           body: ListView(children: <Widget>[
             ViewTowerIndividualDetail(field: "Name", value: widget.tower.name),
             ViewTowerIndividualDetail(
@@ -53,12 +65,12 @@ class _EditTowerDetailsState extends State<EditTowerDetails> {
               child: new InkWell(
                 child:
                     Center(
-                      child: Text("View Checkpoints", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),)
+                      child: Text("View Sections", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),)
                     ),
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ViewCheckpoints(tower: widget.tower)),
+                    MaterialPageRoute(builder: (context) => ViewCheckpoints(tower: widget.tower, towerID: widget.towerID)),
                   );
                 },
               ),
@@ -72,10 +84,13 @@ class _EditTowerDetailsState extends State<EditTowerDetails> {
               child: new InkWell(
                 child:
                 Center(
-                    child: Text("View Members", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),)
+                    child: Text("View Statistics Report", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),)
                 ),
                 onTap: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ViewPerformanceChart(title: 'THIS IS THE CHART')),
+                  );
                 },
               ),
             ),

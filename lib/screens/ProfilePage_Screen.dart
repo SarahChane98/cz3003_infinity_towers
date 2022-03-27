@@ -66,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children:[
                     SizedBox(width:20),
                     Text('PROFILE',
-                      textAlign: TextAlign.left,
+                      textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 20,fontWeight: FontWeight.w300),)
                   ]
               )
@@ -74,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(height: 10,),
           Container(
               decoration:BoxDecoration(color:Colors.lightGreen[100]),
-              child:Row(
+              child:Column(
                 children: [
                   SizedBox(width: 20,),
                   Text('School',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
@@ -85,21 +85,21 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(height: 10,),
           Container(
               decoration:BoxDecoration(color:Colors.lightGreen[100]),
-              child:Row(
+              child:Column(
                 children: [
                   SizedBox(width: 20,),
                   Text('Email',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                  Container(width:290,child:Text(email,style: TextStyle(fontSize: 18),textAlign: TextAlign.right,))
+                  Container(width:290,child:Text(email,style: TextStyle(fontSize: 18),textAlign: TextAlign.center,))
                 ],
               )),
           SizedBox(height: 10,),
           Container(
               decoration:BoxDecoration(color:Colors.lightGreen[100]),
-              child:Row(
+              child:Column(
                 children: [
                   SizedBox(width: 20,),
-                  Text('Linked',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                  Container(width:245,child:Text('LinkedIn,Facebook',style: TextStyle(fontSize: 18,fontStyle:FontStyle.italic),textAlign: TextAlign.right,)),
+                  Text('Not Linked',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                  Container(width:245,child:Text('LinkedIn,Facebook',style: TextStyle(fontSize: 18,fontStyle:FontStyle.italic),textAlign: TextAlign.center,)),
                   IconButton(onPressed: () {
                   },
                       icon: Icon(
@@ -113,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
               decoration:BoxDecoration(color:Colors.lightGreen[100]),
               padding: EdgeInsets.symmetric(vertical:5),
-              child:Row(
+              child:Column(
                   children:[
                     SizedBox(width:20),
                     Text('ACCOUNT',
@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(height: 10,),
           Container(
               decoration:BoxDecoration(color:Colors.lightGreen[100]),
-              child:Row(
+              child:Column(
                 children: [
                   SizedBox(width: 20,),
                   Text('Username',style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),textAlign: TextAlign.left,),
@@ -142,11 +142,12 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(height: 10,),
           Container(
               decoration:BoxDecoration(color:Colors.lightGreen[100]),
-              child:Row(
+              child:Column(
                 children: [
                   SizedBox(width: 20,),
                   Text('Password',style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
-                  Container(width:200,child:Text('******',style: TextStyle(fontSize: 18),textAlign: TextAlign.right,)),
+                  Container(width:200,child:Text('******',style: TextStyle(fontSize: 18),textAlign: TextAlign.center,)),
+
                   IconButton(onPressed: () {
                     navigateSecondPage(EditPasswordPage());
                   },

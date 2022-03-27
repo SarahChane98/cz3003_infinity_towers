@@ -36,7 +36,7 @@ class _ViewTowerIndividualDetailState extends State<ViewTowerIndividualDetail> {
 
           children: [
             Text('\t\t'+widget.field+':\t\t\t', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-            val == '' ? Text(widget.value, style:TextStyle(fontSize: 15)):Text(val, style: TextStyle(fontSize: 22))
+            val == '' ? Text(widget.value, style:TextStyle(fontSize: 22)):Text(val, style: TextStyle(fontSize: 22))
           ],
         )
         ,
