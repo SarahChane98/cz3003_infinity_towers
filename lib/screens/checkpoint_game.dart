@@ -44,6 +44,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
 
   int _calcPreviousDifficultyLevelFloor() => max(((_floor ~/ 3) - 1) * 3, 0);
 
+  /// Gets the latest floor number that the user has attempted for the checkpoint.
   Future<void> getCurrFloor() async {
     await towerParticipationsRef
       .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
@@ -60,6 +61,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     });
   }
 
+  /// Retrieves all the questions and separates them into easy, medium and hard questions.
   Future<void> getAllQuestions() async {
     final questionsRef = FirebaseFirestore.instance.collection('questions').withConverter<MultipleChoiceQuestion>(
       fromFirestore: (snapshot, _) => MultipleChoiceQuestion.fromJson(snapshot.data()),
@@ -82,6 +84,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     }
   }
 
+  /// Randomly samples 3 easy questions, 3 medium questions, 3 hard questions and 1 boss question from question pool.
   void reselectQuestions() {
     if (allEasyQuestions.length >=3 && allMediumQuestions.length >=3 && allHardQuestions.length >=3 && allBossQuestions.length >=1){
       final _random = Random();
@@ -99,11 +102,13 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     }
   }
 
+  /// Prepares the 10 questions to display in this checkpoint.
   Future<void> selectQuestions() async {
     await getAllQuestions();
     reselectQuestions();
   }
 
+  /// Calculates the new score after user wrongly answers a question.
   Future<int> calcNewScore() async {
     var curr_level = _floor ~/ 3;
     var pointsToDeduct;
@@ -134,6 +139,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     return newScore;
   }
 
+  /// Updates the score in the database.
   Future<void> updateScore() async {
     await calcNewScore().then((newScore) async {
       QuerySnapshot querySnapshot = await towerParticipationsRef
@@ -144,6 +150,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     });
   }
 
+  /// Updates the current floor in checkpoint saved in the database.
   Future<void> updateFloor() async {
     QuerySnapshot querySnapshot = await towerParticipationsRef
         .where('studentId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
@@ -239,6 +246,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     }
   }
 
+  /// Builds the single floor tile.
   Widget buildSingleFloor(int monsterFloor) {
     return Container(
       color: colorSchemes[monsterFloor ~/ 3],
@@ -251,6 +259,7 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     );
   }
 
+  /// Builds the floors for all 10 questions.
   Widget buildAllFloors() {
     return ListView.separated(
         padding: const EdgeInsets.all(Sizes.smallPadding),
@@ -263,6 +272,8 @@ class _CheckpointGamePageState extends State<CheckpointGamePage> {
     );
   }
  var score;
+
+  /// Displays congratulation message after a user has successfully completes the checkpoint.
   Widget buildCongratsMessage() {
     return Center(
       child: Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/constants/strings.dart';
 
+/// Page displaying error message 'checkpoints not unlocked'.
 class CheckpointErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

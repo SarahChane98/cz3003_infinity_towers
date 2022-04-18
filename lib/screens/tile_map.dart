@@ -36,6 +36,7 @@ class _TileMapPageState extends State<TileMapPage> {
      return participatedTowers;
   }
 
+  /// Gets all the towers that the student has participated in.
   Future<List<Tower>> getTowers() async {
     List<Tower> towers = [];
     await getParticipations().then((participations) async {
@@ -48,6 +49,7 @@ class _TileMapPageState extends State<TileMapPage> {
     return towers;
   }
 
+  /// Retrieves the tower Ids for all the towers the student has participated in.
   Future<List<String>> getTowerIds() async {
     List<String> towerIds = [];
     await getParticipations().then((participations) async {

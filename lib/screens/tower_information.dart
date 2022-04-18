@@ -22,7 +22,7 @@ class TowerInformationPage extends StatefulWidget {
 
 class _TowerInformationPageState extends State<TowerInformationPage> {
 
-  // Get a list of checkpoints using checkpointIds
+  /// Gets a list of checkpoints using checkpointIds
   Future<List<Checkpoint>> getCheckpoints() async {
     final ckptRef = FirebaseFirestore.instance.collection('checkpoints').withConverter<Checkpoint>(
       fromFirestore: (snapshot, _) => Checkpoint.fromJson(snapshot.data()),
@@ -38,7 +38,7 @@ class _TowerInformationPageState extends State<TowerInformationPage> {
     return checkpoints;
   }
 
-  // Get checkpointsUnlocked from tower_participation
+  /// Gets checkpointsUnlocked from tower_participation.
   Future<int> getCheckpointsUnlocked() async {
     final towerParticipationsRef = FirebaseFirestore.instance.collection('tower_participations').withConverter<TowerParticipation>(
       fromFirestore: (snapshot, _) => TowerParticipation.fromJson(snapshot.data()),
