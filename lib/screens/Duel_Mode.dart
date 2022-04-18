@@ -10,6 +10,7 @@ import 'package:cz3003_infinity_towers/screens/appbar.dart';
 import 'package:cz3003_infinity_towers/screens/view_tower_information.dart';
 import 'package:cz3003_infinity_towers/screens/view_performance_chart_trial.dart';
 import 'package:cz3003_infinity_towers/screens/Main_Student.dart';
+/// This class is used to diplay the Duel Mode screen of the application
 class DuelMode extends StatefulWidget {
   const DuelMode({Key key}) : super(key: key);
 

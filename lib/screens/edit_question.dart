@@ -12,6 +12,7 @@ import 'package:cz3003_infinity_towers/models/multiple_choice_question.dart';
 import 'package:cz3003_infinity_towers/models/tower_participation.dart';
 import 'package:cz3003_infinity_towers/screens/appbar.dart';
 import 'package:cz3003_infinity_towers/screens/view_tower_individual_detail.dart';
+/// This class is used to edit the information of a particular question.
 class EditQuestion extends StatefulWidget {
   final MultipleChoiceQuestion question;
   final String questionID;

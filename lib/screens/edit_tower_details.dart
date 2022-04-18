@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/screens/appbar.dart';
 import 'package:cz3003_infinity_towers/screens/view_tower_information.dart';
 import 'package:cz3003_infinity_towers/screens/view_performance_chart_trial.dart';
+
+/// This class is used to edit the information of a particular tower.
 class EditTowerDetails extends StatefulWidget {
   final Tower tower;
   final String towerID;

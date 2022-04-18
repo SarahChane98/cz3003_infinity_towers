@@ -1,21 +1,11 @@
 import 'package:cz3003_infinity_towers/screens/add_question.dart';
-import 'package:cz3003_infinity_towers/screens/individual_question_information.dart';
-import 'package:cz3003_infinity_towers/screens/manage_towers.dart';
-import 'package:cz3003_infinity_towers/screens/view_questions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:cz3003_infinity_towers/models/tower.dart';
 import 'package:cz3003_infinity_towers/models/checkpoint.dart';
-import 'package:cz3003_infinity_towers/constants/strings.dart';
-import 'package:cz3003_infinity_towers/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cz3003_infinity_towers/models/multiple_choice_question.dart';
-import 'package:cz3003_infinity_towers/models/tower_participation.dart';
-import 'package:cz3003_infinity_towers/screens/appbar.dart';
-import 'package:cz3003_infinity_towers/screens/view_tower_individual_detail.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
+
+/// This class is used to add a new checkpoint to a tower.
 class AddNewCheckpoint extends StatefulWidget {
   final String towerID;
   final Tower tower;
@@ -35,6 +25,8 @@ class _AddNewCheckpointState extends State<AddNewCheckpoint> {
   //   toFirestore: (participation, _) => participation.toJson(),
   // );
   //
+
+  /// After a new checkpoint is created, the instructor is redirected to add a new question to that checkpoint.
   void popDialog(String message) async {
     await showDialog(
         context: context,

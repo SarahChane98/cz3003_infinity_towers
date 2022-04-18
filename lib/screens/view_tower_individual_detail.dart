@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/screens/edit_tower_parameter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:async';
+/// This class is used to make changes of individual information about the tower.
 class ViewTowerIndividualDetail extends StatefulWidget {
   String field;
   String value;

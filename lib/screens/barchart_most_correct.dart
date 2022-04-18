@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-
+/// This class is used to display the barchart containing the most correctly answered questions
 class BarChartMostCorrect extends StatefulWidget {
   const BarChartMostCorrect({Key key}) : super(key: key);
 

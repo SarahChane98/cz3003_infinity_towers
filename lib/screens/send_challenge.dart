@@ -1,7 +1,7 @@
 import 'package:cz3003_infinity_towers/screens/Duel_Mode.dart';
 import 'package:flutter/material.dart';
 import 'package:cz3003_infinity_towers/screens/edit_tower_details.dart';
-
+/// This function is used to send the challenge to another user.
 class SendChallenge extends StatefulWidget {
   const SendChallenge({Key key}) : super(key: key);
 

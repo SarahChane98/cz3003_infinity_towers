@@ -3,7 +3,7 @@ import 'package:cz3003_infinity_towers/screens/edit_tower_details.dart';
 import 'package:cz3003_infinity_towers/screens/tower_information.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+/// This class is used to display the information of a particular tower and also modify its information.
 class ViewTowerInformation extends StatelessWidget {
   const ViewTowerInformation({Key key}) : super(key: key);
   final towerName = 'Tower 1';

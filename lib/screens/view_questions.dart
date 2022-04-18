@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cz3003_infinity_towers/models/multiple_choice_question.dart';
 import 'package:cz3003_infinity_towers/models/tower_participation.dart';
 import 'package:cz3003_infinity_towers/screens/edit_question.dart';
+/// This class is used to display all the questions present in a particular checkpoint.
 class ViewQuestions extends StatefulWidget {
   final Checkpoint rcheckpoint;
   final String checkpointID;

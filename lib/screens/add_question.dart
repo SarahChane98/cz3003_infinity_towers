@@ -16,7 +16,7 @@ import 'package:cz3003_infinity_towers/screens/view_tower_individual_detail.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cz3003_infinity_towers/screens/manage_towers.dart';
 
-
+/// This class is used to add a new question to a checkpoint.
 class AddQuestion extends StatefulWidget {
   final String checkpointID;
   final Tower tower;

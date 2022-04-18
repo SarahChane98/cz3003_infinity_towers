@@ -6,6 +6,8 @@ import 'package:cz3003_infinity_towers/models/tower.dart';
 import 'package:cz3003_infinity_towers/models/tower_participation.dart';
 import 'package:cz3003_infinity_towers/screens/tower_leaderboard.dart';
 
+
+/// This class is used to display the leaderboard of all the towers that the user is part of.
 class LeaderboardTileMapPage extends StatefulWidget {
   const LeaderboardTileMapPage({Key key}) : super(key: key);
 

@@ -10,6 +10,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cz3003_infinity_towers/models/multiple_choice_question.dart';
 import 'package:cz3003_infinity_towers/models/tower_participation.dart';
+
+/// This class is used to display all the checkpoints present in the selected tower.
 class ViewCheckpoints extends StatefulWidget {
   final Tower tower;
   final String towerID;

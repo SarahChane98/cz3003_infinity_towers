@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+/// This class is used to provide a standardized appbar for all the screens.
 AppBar headerNav({String title, context, returnFunction}) {
   const appBarStyle = TextStyle(fontFamily: 'Fredoka', fontSize: 32);
 
